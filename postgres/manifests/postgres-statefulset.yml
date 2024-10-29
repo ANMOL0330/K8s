@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+spec:
+  serviceName: postgres
+  replicas: 2
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      initContainers:
+      - name: init
+        image: docker.io/bitnami/postgresql-repmgr:16
+        command: ['/bin/sh', '-c', 'cp /docker-entrypoint-initdb.d/* /bitnami/postgresql/']
+        volumeMounts:
+        - name: initialization
+          mountPath: /docker-entrypoint-initdb.d
+      containers:
+      - name: postgres
+        image: docker.io/bitnami/postgresql-repmgr:16
+        ports:
+        - containerPort: 5432
+          name: postgres
+        env:
+        - name: POSTGRESQL_POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRESQL_POSTGRES_PASSWORD
+        - name: POSTGRESQL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRESQL_USERNAME
+        - name: POSTGRESQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRESQL_PASSWORD
+        - name: REPMGR_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: REPMGR_PASSWORD
+        - name: POSTGRES_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POSTGRES_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: REPMGR_PRIMARY_HOST
+          value: postgres-0.postgres.$(POSTGRES_POD_NAMESPACE).svc.cluster.local
+        - name: REPMGR_PRIMARY_PORT
+          value: '5432'
+        - name: REPMGR_PARTNER_NODES
+          value: postgres-0.postgres.$(POSTGRES_POD_NAMESPACE).svc.cluster.local,postgres-1.postgres.$(POSTGRES_POD_NAMESPACE).svc.cluster.local
+        - name: REPMGR_NODE_NAME
+          value: "$(POSTGRES_POD_NAME)"
+        - name: REPMGR_NODE_NETWORK_NAME
+          value: $(POSTGRES_POD_NAME).postgres.$(POSTGRES_POD_NAMESPACE).svc.cluster.local
+        - name: REPMGR_PORT_NUMBER
+          value: '5432'
+        volumeMounts:
+        - name: data
+          mountPath: /bitnami/postgresql
+        - name: initialization
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: initialization
+        configMap:
+          name: postgres-config
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "standard"
+      resources:
+        requests:
+          storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  ports:
+  - port: 5432
+    name: postgres
+  clusterIP: None
+  selector:
+    app: postgres

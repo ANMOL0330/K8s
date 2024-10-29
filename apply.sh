@@ -8,3 +8,8 @@ bash $BASE_PATH/system/scripts/apply.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi
+
+# Postgres resources
+# Postgres HOSTNAME: postgres-0.postgres.postgres.svc.cluster.local
+# Postgres PORT: 5432
+bash $BASE_PATH/postgres/scripts/apply.sh
