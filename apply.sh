@@ -24,3 +24,6 @@ bash $BASE_PATH/rabbits/scripts/apply.sh
 # Redis HOSTNAME: redis-0.redis.redis.svc.cluster.local
 # Redis PORT: 6379
 bash $BASE_PATH/redis/scripts/apply.sh
+
+# Services resources
+bash $BASE_PATH/services/scripts/apply.sh

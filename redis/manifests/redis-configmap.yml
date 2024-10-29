@@ -61,6 +61,13 @@ data:
     # loadmodule /path/to/my_module.so
     # loadmodule /path/to/other_module.so
 
+    loadmodule /opt/redis-stack/lib/rediscompat.so
+    loadmodule /opt/redis-stack/lib/redisearch.so
+    loadmodule /opt/redis-stack/lib/redistimeseries.so
+    loadmodule /opt/redis-stack/lib/rejson.so
+    loadmodule /opt/redis-stack/lib/redisbloom.so
+    loadmodule /opt/redis-stack/lib/redisgears.so v8-plugin-path /opt/redis-stack/lib/libredisgears_v8_plugin.so
+    
     ################################## NETWORK #####################################
 
     # By default, if no "bind" configuration directive is specified, Redis listens

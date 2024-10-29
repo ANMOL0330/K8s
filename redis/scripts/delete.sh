@@ -8,9 +8,7 @@ kubectl delete -n redis -f $BASE_PATH/redis-configmap.yml
 kubectl delete -n redis -f $BASE_PATH/redis-sealed-secret.yml
 
 # Delete Sentinel resources
-
 kubectl delete -n redis -f $BASE_PATH/sentinel-statefulset.yml
 
 # Delete RedisInsight resources
-
 kubectl delete -n redis -f $BASE_PATH/redisinsight-deployment.yml

@@ -10,3 +10,9 @@ bash $BASE_PATH/rabbits/scripts/delete.sh
 
 # Redis resources
 bash $BASE_PATH/redis/scripts/delete.sh
+
+# Services resources
+bash $BASE_PATH/services/scripts/delete.sh
+
+# System resources
+bash $BASE_PATH/system/scripts/delete.sh

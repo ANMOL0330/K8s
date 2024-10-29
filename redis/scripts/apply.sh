@@ -14,15 +14,12 @@ kubectl apply -n redis -f $BASE_PATH/redis-configmap.yml
 kubectl apply -n redis -f $BASE_PATH/redis-statefulset.yml
 
 # Wait till all Redis pods are running
-
 kubectl wait -n redis --for=condition=Ready pod/redis-0 --timeout=300s
 kubectl wait -n redis --for=condition=Ready pod/redis-1 --timeout=300s
 kubectl wait -n redis --for=condition=Ready pod/redis-2 --timeout=300s
 
 # Apply Sentinel resources
-
 kubectl apply -n redis -f $BASE_PATH/sentinel-statefulset.yml
 
 # Apply RedisInsight resources
-
 kubectl apply -n redis -f $BASE_PATH/redisinsight-deployment.yml
