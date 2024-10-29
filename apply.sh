@@ -19,3 +19,8 @@ bash $BASE_PATH/postgres/scripts/apply.sh
 # RabbitMQ PORT: 5672
 # RabbitMQ MANAGEMENT PORT: 15672
 bash $BASE_PATH/rabbits/scripts/apply.sh
+
+# Redis resources
+# Redis HOSTNAME: redis-0.redis.redis.svc.cluster.local
+# Redis PORT: 6379
+bash $BASE_PATH/redis/scripts/apply.sh

@@ -7,3 +7,6 @@ bash $BASE_PATH/postgres/scripts/delete.sh
 
 # RabbitMQ resources
 bash $BASE_PATH/rabbits/scripts/delete.sh
+
+# Redis resources
+bash $BASE_PATH/redis/scripts/delete.sh
