@@ -14,5 +14,8 @@ bash $BASE_PATH/redis/scripts/delete.sh
 # Services resources
 bash $BASE_PATH/services/scripts/delete.sh
 
+# Gateway resources
+bash $BASE_PATH/gateway/scripts/delete.sh
+
 # System resources
 bash $BASE_PATH/system/scripts/delete.sh

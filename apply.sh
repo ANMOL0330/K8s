@@ -27,3 +27,6 @@ bash $BASE_PATH/redis/scripts/apply.sh
 
 # Services resources
 bash $BASE_PATH/services/scripts/apply.sh
+
+# Gateway resources
+bash $BASE_PATH/gateway/scripts/apply.sh
