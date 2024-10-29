@@ -1,0 +1,3 @@
+.DS_Store
+secrets/*
+system/sealed-secrets-keys/*.key
