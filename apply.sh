@@ -13,3 +13,9 @@ fi
 # Postgres HOSTNAME: postgres-0.postgres.postgres.svc.cluster.local
 # Postgres PORT: 5432
 bash $BASE_PATH/postgres/scripts/apply.sh
+
+# RabbitMQ resources
+# RabbitMQ HOSTNAME: rabbitmq-0.rabbitmq.rabbits.svc.cluster.local
+# RabbitMQ PORT: 5672
+# RabbitMQ MANAGEMENT PORT: 15672
+bash $BASE_PATH/rabbits/scripts/apply.sh
