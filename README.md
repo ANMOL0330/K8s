@@ -18,3 +18,11 @@ To deploy the application, run the following command:
 ```bash
 ./apply.sh
 ```
+
+## Undeploy
+
+To undeploy the application, run the following command:
+
+```bash
+./delete.sh
+```
