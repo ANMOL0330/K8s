@@ -5,8 +5,8 @@ metadata:
 data:
   # Postgres
   USER_SERVICE_DB: 'users_db'
-  PAYMENTS_SERVICE_DB: 'payments_db'
-  INTERVIEWS_SERVICE_DB: 'interviews_db'
+  PAYMENT_SERVICE_DB: 'payments_db'
+  INTERVIEW_SERVICE_DB: 'interviews_db'
 
   # RabbitMQ
   EXCHANGE_NAME: 'BACKEND_EVENTS'

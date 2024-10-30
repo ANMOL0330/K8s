@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-service
+  labels:
+    app: payment-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-service
+  template:
+    metadata:
+      labels:
+        app: payment-service
+    spec:
+      containers:
+      - name: payment-service
+        image: ghcr.io/interviewandhealth/payment-service:v1
+        ports:
+        - containerPort: 8000
+        env:
+        - name: POSTGRES_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: services-secret
+              key: POSTGRES_USERNAME
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: services-secret
+              key: POSTGRES_PASSWORD
+        - name: DATABASE_URL
+          value: "postgresql://$(POSTGRES_USERNAME):$(POSTGRES_PASSWORD)@postgres-0.postgres.postgres.svc.cluster.local:5432"
+        - name: DATABASE_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: services-configmap
+              key: PAYMENT_SERVICE_DB
+        - name: JWT_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: services-secret
+              key: JWT_SECRET_KEY
+        - name: RABBITMQ_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: services-secret
+              key: RABBITMQ_USERNAME
+        - name: RABBITMQ_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: services-secret
+              key: RABBITMQ_PASSWORD
+        - name: RABBITMQ_URL
+          value: "amqp://$(RABBITMQ_USERNAME):$(RABBITMQ_PASSWORD)@rabbitmq-0.rabbitmq.rabbits.svc.cluster.local:5672/"
+        - name: EXCHANGE_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: services-configmap
+              key: EXCHANGE_NAME
+        - name: SERVICE_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: services-configmap
+              key: PAYMENT_SERVICE_NAME
+        - name: SERVICE_QUEUE
+          valueFrom:
+            configMapKeyRef:
+              name: services-configmap
+              key: PAYMENT_SERVICE_QUEUE
+        - name: RPC_QUEUE
+          valueFrom:
+            configMapKeyRef:
+              name: services-configmap
+              key: PAYMENT_SERVICE_RPC
+        - name: STRIPE_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: services-secret
+              key: STRIPE_SECRET_KEY
+        - name: STRIPE_WEBHOOK_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: services-secret
+              key: STRIPE_WEBHOOK_SECRET
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service
+spec:
+  selector:
+    app: payment-service
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000

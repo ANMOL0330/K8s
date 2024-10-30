@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: scheduler-service
-        image: ghcr.io/interviewandhealth/scheduler-service:v1
+        image: ghcr.io/interviewandhealth/scheduler-service:v2
         env:
         - name: REDIS_USERNAME
           valueFrom:

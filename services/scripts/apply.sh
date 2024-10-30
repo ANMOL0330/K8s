@@ -12,8 +12,17 @@ BASE_PATH="$(dirname "$DIR")/manifests"
 kubectl apply -n services -f $BASE_PATH/services-sealed-secret.yml
 kubectl apply -n services -f $BASE_PATH/services-configmap.yml
 
-# Scheduler service
-kubectl apply -n services -f $BASE_PATH/scheduler-service.yml
+# User service
+kubectl apply -n services -f $BASE_PATH/user-service.yml
+
+# Interview service
+kubectl apply -n services -f $BASE_PATH/interview-service.yml
 
 # Conversation service
 kubectl apply -n services -f $BASE_PATH/conversation-service.yml
+
+# Payment service
+kubectl apply -n services -f $BASE_PATH/payment-service.yml
+
+# Scheduler service
+kubectl apply -n services -f $BASE_PATH/scheduler-service.yml

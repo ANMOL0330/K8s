@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: conversation-service
-        image: ghcr.io/interviewandhealth/conversation-service:v1
+        image: ghcr.io/interviewandhealth/conversation-service:v3
         ports:
         - containerPort: 8000
         env:
@@ -144,12 +144,12 @@ spec:
             configMapKeyRef:
               name: services-configmap
               key: USER_SERVICE_RPC
-        - name: INTERVIEWS_SCHEDULE_QUEUE
+        - name: INTERVIEWS_QUEUE
           valueFrom:
             configMapKeyRef:
               name: services-configmap
               key: INTERVIEW_SERVICE_QUEUE
-        - name: INTERVIEWS_SCHEDULE_RPC
+        - name: INTERVIEWS_RPC
           valueFrom:
             configMapKeyRef:
               name: services-configmap
