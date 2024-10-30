@@ -75,10 +75,10 @@ spec:
       name: data
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "standard"
+      storageClassName: "ebs-sc"
       resources:
         requests:
-          storage: 64Mi
+          storage: 500Mi
 ---
 apiVersion: v1
 kind: Service

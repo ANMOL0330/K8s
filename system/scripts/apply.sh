@@ -17,4 +17,19 @@ for key in $KEYS_PATH/*.key; do
   kubectl apply -f $key
 done
 
-kubectl apply -f $BASE_PATH/sealed-secrets-controller.yml
+kubectl apply -f $BASE_PATH/sealed-secrets-controller.yaml
+
+# Wait for Sealed Secrets controller to be available
+kubectl wait --for=condition=available --timeout=300s deployment/sealed-secrets-controller -n kube-system
+
+# Apply aws secret
+kubectl apply -f $BASE_PATH/aws-sealed-secret.yaml
+
+# Apply aws ebs csi driver
+kubectl apply -k $BASE_PATH/aws-ebs-csi-driver
+
+# Wait for AWS EBS CSI driver to be available
+kubectl wait --for=condition=available --timeout=300s deployment/aws-ebs-csi-driver-controller -n kube-system
+
+# Apply storage class
+kubectl apply -f $BASE_PATH/aws-ebs-storage-class.yaml
