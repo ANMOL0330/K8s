@@ -13,3 +13,6 @@ kubectl apply -n rabbits -f $BASE_PATH/rabbit-rbac.yml
 kubectl apply -n rabbits -f $BASE_PATH/rabbit-configmap.yml
 kubectl apply -n rabbits -f $BASE_PATH/rabbit-sealed-secret.yml
 kubectl apply -n rabbits -f $BASE_PATH/rabbit-statefulset.yml
+
+# Wait for RabbitMQ to be ready
+kubectl wait --for=condition=ready pod -l app=rabbitmq -n rabbits --timeout=300s
