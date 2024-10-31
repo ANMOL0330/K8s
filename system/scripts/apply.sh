@@ -3,9 +3,6 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 BASE_PATH="$(dirname "$DIR")/manifests"
 
-# Taint
-bash $DIR/taint.sh
-
 # Sealed Secrets resources
 
 KEYS_PATH="$(dirname "$DIR")/sealed-secrets-keys"
@@ -21,15 +18,6 @@ for key in $KEYS_PATH/*.key; do
 done
 
 kubectl apply -f $BASE_PATH/sealed-secrets-controller.yaml
-
-# Wait for Sealed Secrets controller to be available
-kubectl wait --for=condition=available --timeout=300s deployment/sealed-secrets-controller -n kube-system
-
-# Apply aws secret
-kubectl apply -f $BASE_PATH/aws-sealed-secret.yaml
-
-# Apply aws ebs csi driver
-kubectl apply -k $BASE_PATH/aws-ebs-csi-driver
 
 # Apply storage class
 kubectl apply -f $BASE_PATH/aws-ebs-storage-class.yaml

@@ -78,7 +78,7 @@ spec:
       storageClassName: "ebs-sc"
       resources:
         requests:
-          storage: 500Mi
+          storage: 1Gi
 ---
 apiVersion: v1
 kind: Service
