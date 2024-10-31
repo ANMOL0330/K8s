@@ -3,6 +3,9 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 BASE_PATH="$(dirname "$DIR")/manifests"
 
+# Taint
+bash $DIR/taint.sh
+
 # Sealed Secrets resources
 
 KEYS_PATH="$(dirname "$DIR")/sealed-secrets-keys"
