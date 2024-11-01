@@ -19,5 +19,24 @@ done
 
 kubectl apply -f $BASE_PATH/sealed-secrets-controller.yaml
 
+# Wait for Sealed Secrets controller to be ready
+kubectl wait --for=condition=available --timeout=600s deployment/sealed-secrets-controller -n kube-system
+
+# Apply aws-sealed-secret
+kubectl apply -f $BASE_PATH/aws-sealed-secret.yaml
+
+# Taint nodes
+NODES=$(kubectl get nodes -o jsonpath='{.items[*].metadata.name}')
+
+for node in $NODES; do
+  kubectl taint nodes $node ebs.csi.aws.com/agent-not-ready:NoExecute
+done
+
+# Apply aws-ebs-csi-driver resources
+kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.36"
+
+# Wait for aws-ebs-csi-driver to be ready
+kubectl wait --for=condition=available --timeout=600s deployment/aws-ebs-csi-controller -n kube-system
+
 # Apply storage class
 kubectl apply -f $BASE_PATH/aws-ebs-storage-class.yaml
